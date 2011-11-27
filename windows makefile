@@ -1,0 +1,32 @@
+CC = g++
+OUTPUT = -o SDL_win
+CFLAGS = -Wall
+LDFLAGS = -lm -lSDL_image -lSDL_ttf -lSDL_mixer -lmingw32 -lSDLmain -lSDL
+OBJ = obj/core.o obj/editor.o obj/gameworld.o obj/graphic.o obj/input.o obj/mapbrowser.o
+
+default:
+	make clean
+	make all
+
+# link all together
+all: $(OBJ)
+	$(CC) $(CFLAGS) $(OUTPUT) src/main.c $(OBJ) $(LDFLAGS)
+	
+# object files
+obj/core.o:
+	$(CC) $(CFLAGS) -c src/core.c -o obj/core.o
+obj/editor.o:
+	$(CC) $(CFLAGS) -c src/editor.c -o obj/editor.o
+obj/gameworld.o:
+	$(CC) $(CFLAGS) -c src/gameworld.c -o obj/gameworld.o
+obj/graphic.o:
+	$(CC) $(CFLAGS) -c src/graphic.c -o obj/graphic.o 
+obj/input.o:
+	$(CC) $(CFLAGS) -c src/input.c -o obj/input.o
+obj/mapbrowser.o:
+	$(CC) $(CFLAGS) -c src/mapbrowser.c -o obj/mapbrowser.o
+
+clean:
+	DEL ./SDL_win.exe
+	DEL ./obj/*
+	

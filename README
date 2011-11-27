@@ -1,0 +1,186 @@
+	
+		Die Kugel ist in das Zielfeld zu bringen. Das Schwierige dabei:
+		Die Kugel rollt bei jeder Bewegung solange weiter bis sie auf ein anderes
+		Objekt stößt. Sollte die Kugel aus dem Spielfeld herausrollen oder auf
+		bestimmte Objekte treffen muss das Level neu begonnen werden. Durch
+		spezielle Objekte wie die beweglichen Steine oder Schlüssel können die
+		Level anspruchsvoll gestaltet werden und Denken verursachen.
+		Ein integrierte Leveleditor erleichtert das Erstellen der Leveldateien.
+		
+		///////////////
+		// Steuerung //
+		///////////////
+
+		Generell
+		--------
+		-	Esc » Zum Hauptmenü
+	
+		Ingame
+		------
+		-	Pfeiltasten » Steuerung des Balls
+		-	Linke Maustaste » Steuerung des Balls
+			(Mauszeiger passt sich automatisch an)
+		- r » Restart
+		- p » Pause
+		
+		Editor
+		------
+		- Pfeiltasten »	Größe der Karte in RICHTUNG (Pfeiltasten) vergrößern
+		- Pfeiltasten + Shift links »	Größe der Karte in RICHTUNG (Pfeiltasten) verkleinern
+		- Linke Maustaste »	- Per Drag'n'Drop neue Objekte aus der Toolbar
+													in das Spielfeld ziehen
+												- Vorhande Objekte verschieben
+												- Objekt aus dem Feld ziehen zum Entfernen
+												- In Verbindung mit Strg: Objekte kopieren
+		- Mittlere Mauste »	Auf Spielfeld klicken und Maus bewegen zum scrollen
+		- Spielfeldrand »	Maus an Spielfeldrand bewegen zum scrollen
+		- Strg + s » Karte speichern
+		
+		
+		/////////////////////////////
+		// Erläuterung der Objekte //
+		/////////////////////////////
+		
+		player (Kugel):
+			Spielfigur, siehe "Steuerung » Ingame"
+			
+		end (kariertes Feld):
+			Das Ziel
+			
+		box (schwarzer Rand mit schwarzem Quadrat):
+			Fester Stein
+			Objekt hält beim anstoßen
+			
+		death (roter Rand mit rotem Quadrat):
+			Fester Stein
+			Objekt hält beim anstoßen
+			Spieler verliert beim anstoßen
+			
+		break_box (schwarzer Rand, hohl):
+			Fester Stein
+			Objekt hält beim anstoßen und Stein verschwindet
+			
+		break_death (roter Rand, hohl):
+			Fester Stein
+			Objekt hält beim anstoßen und Stein verschwindet
+			Spieler verliert beim anstoßen			
+			
+		box_death (schwarzer Rand mit rotem Quadrat):
+			Fester Stein
+			Objekt hält beim anstoßen und Stein verwandelt sich anschließend zu "death"
+			
+		death_box (roter Rand mit schwarzem Quadrat):
+			Fester Stein
+			Objekt hält beim anstoßen und Stein verwandelt sich anschließend zu "box"
+			
+		move_box (schwarzer Rand mit schwarzem Kreis):
+			Beweglicher Stein
+			Objekt hält beim anstoßen
+			
+		move_death (roter Rand mit rotem Kreis):
+			Beweglicher Stein
+			Objekt hält beim anstoßen
+			Spieler verliert beim anstoßen
+		
+		key (schwarzer Schlüssel):
+			Durchgängiger Stein
+			Spieler bekommt einen Schlüssel beim herüberfahren
+			Objekt geht verloren, wenn anderes Objekt herüberfährt
+			
+		lock (schwarzes Schloss):
+			Fester Stein
+			Objekt verschwindet beim anstoßen durch Spieler, wenn dieser mindestens einen Schlüssel besitzt
+			
+	//////////////////////////////////////////////
+	// Herausforderungen / zusätzlich Gelerntes //
+	//////////////////////////////////////////////
+		
+		- Strukturvariablen
+		- Filehandling
+		- Umgang mit der SDL Grafikbibliothek
+		- Spielgeschwindigkeit von Rechengeschwindigkeit unabhängig gestalten
+		- Immer auf strikte Trennung von Eingabe, Verarbeitung und Ausgabe achten,
+		   erleichtert den Überblick erheblich
+		- Kompilieren von Objektdateien
+		   und die einzelnen Dateien zur Binary "zusammenlinken"
+		- Schreiben eines eigenen Makefiles
+		- Installation und Konfiguration von GCC und GNU Make auf Windows XP
+		   (bin viel zu verwöhnt von Ubuntu, da ist sowas auch noch vorinstalliert ;-) )
+		- Anpassen des Makefiles für Windows
+		- Weitere Anpassungen für Windows wie die Integration der DLL Bibliotheken
+		   in die Software (unter Linux ist dieses Vorgehen unüblich, Installation
+		   von SDL separat erforderlich)
+		- Keine Lust mehr auf virtuellen Rechner gehabt, also
+		   » Crosscompiling unter Linux für Windows lernen (MinGW)
+		
+	///////////////
+	// Quellcode //
+	///////////////
+	
+	Sämtliche Dateien im Verzeichnis "./src".
+	Ausnahme: Inhalt des Verzeichnisses ./src/SDL wird für das Crosscompiling
+	benötigt und ist nicht selbst	geschrieben.
+	
+	- core.c
+	   Enthält grundlegende Funktionen zur Initialisierung, Dateien laden...
+	- editor.c
+	   Enthält den Leveleditor bezogene Funktionen
+	- gamestruct.h
+	   Enthält den Aufbau der Strukturvariablen "game" welche zum Datenaustausch
+	   an die einzelnen Funktionen weitergegeben wird.
+	- gameworld.c
+	   Enthält Funktionen zur Steuerung des Spielverlaufes (Objekte bewegen,
+	   Kollision abfragen, Mauszeiger an Spielsituation anpassen...)
+	- graphic.c
+	   Enthält grundlegende Funktionen zur Behandlung von Bilddateien und
+	   Funktionen zur Erzeugung des Menüs, der Buttons...
+	- input.h
+	   Wertet die Eingaben von Tastatur und Maus aus und passt die dafür
+	   vorgesehenen Variablen in "struct game" zur weiteren Verarbeitung an
+	- main.c
+	   Enthält die main Funktion, sollte so schlank wie möglich bleiben
+	- mapbrowser.c
+	   Enthält eine Funktion zur Darstellung der Auswahlliste um ein Level
+	   auszuwählen. Unausgereift (Keine Sortierung implementiert, bei einer zu
+	   langen Liste verschwinden Einträge aus dem sichtbaren Bereich)
+	   
+	//////////////////////////
+	// Verwendetes Material //
+	//////////////////////////
+
+	Bibliotheken
+	------------
+		-	libsdl1.2 mit folgenden Erweiterungen:
+			-	libsdl-ttf2.0
+			-	libsdl-image1.2
+			-	libsdl-mixer1.2 (für nicht vorhandene Sound vorsorglich eingebunden...)
+
+	Grafiken / Schriftarten
+	-----------------------
+		-	http://commons.wikimedia.org/wiki/File:High-contrast-system-lock-screen.svg
+				(18:48, 10 October 2009)
+		-	http://commons.wikimedia.org/wiki/File:Crypto_key.svg
+				(02:21, 6 June 2009)
+		-	"Yo Frankie font" created by Pablo Vazquez and converted by Mango Jambo
+		   using FontForge 2.0 ("http://creativecommons.org/licenses/by/3.0/")
+			
+	Programme
+	---------
+		- Compiler
+				Using built-in specs.
+				Target: i486-linux-gnu
+				Configured with: ../src/configure -v --with-pkgversion='Ubuntu 4.4.1-4ubuntu9' --with-bugurl=file:///usr/share/doc/gcc-4.4/README.Bugs --enable-languages=c,c++,fortran,objc,obj-c++ --prefix=/usr --enable-shared --enable-multiarch --enable-linker-build-id --with-system-zlib --libexecdir=/usr/lib --without-included-gettext --enable-threads=posix --with-gxx-include-dir=/usr/include/c++/4.4 --program-suffix=-4.4 --enable-nls --enable-clocale=gnu --enable-libstdcxx-debug --enable-objc-gc --enable-targets=all --disable-werror --with-arch-32=i486 --with-tune=generic --enable-checking=release --build=i486-linux-gnu --host=i486-linux-gnu --target=i486-linux-gnu
+				Thread model: posix
+				gcc version 4.4.1 (Ubuntu 4.4.1-4ubuntu9) 	
+		- Crosscompiler
+				Using built-in specs.
+				Target: i586-mingw32msvc
+				Configured with: /build/buildd/mingw32-4.2.1.dfsg/build_dir/src/gcc-4.2.1-2-dfsg/configure -v --prefix=/usr --target=i586-mingw32msvc --enable-languages=c,c++ --enable-threads --enable-sjlj-exceptions --disable-multilib --enable-version-specific-runtime-libs
+				Thread model: win32
+				gcc version 4.2.1-sjlj (mingw32-2)
+		-	Texteditor
+				gedit 2.28.0
+		-	Bildbearbeitung
+				GIMP 2.6.7
+		- GNU Make 3.81
+		
