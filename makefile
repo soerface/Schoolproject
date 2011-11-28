@@ -1,16 +1,9 @@
 
 CFLAGS = -Wall
 OBJ = obj/core.o obj/editor.o obj/gameworld.o obj/graphic.o obj/input.o obj/mapbrowser.o
-
-### Linux
 CC = /usr/bin/gcc
 OUTPUT = -o SDL_lin
 LDFLAGS = -lm -lSDL_image -lSDL_ttf -lSDL_mixer `sdl-config --cflags`  `sdl-config --libs`
-
-### Windows (Crosscompiler)
-#CC = /usr/bin/i586-mingw32msvc-gcc
-#OUTPUT = -o SDL_win.exe
-#LDFLAGS = -lmingw32 -lm -Llib -lSDL_image -lSDL_ttf -lSDL_mixer -lSDLmain -lSDL
 
 default:
 	make clean
